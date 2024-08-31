@@ -14,5 +14,5 @@ def main():
 def echo_input():
     input_text = request.form.get("user_input", "")
     response = request.args.get(URL)
-    print(response.status_code)
+    print(response.content)
     return "You entered: " + input_text
