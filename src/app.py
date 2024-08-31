@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, request, render_template
+from flask import Flask, request, requests, render_template
 'from Databases.Weather import Weather, db'
 
 app = Flask(__name__)
@@ -13,6 +13,6 @@ def main():
 @app.route("/echo_user_input", methods=["POST"])
 def echo_input():
     input_text = request.form.get("user_input", "")
-    response = request.args.get(URL)
+    response = requests.get(URL)
     print(response.content)
     return "You entered: " + input_text
