@@ -14,4 +14,5 @@ def main():
 def echo_input():
     input_text = request.form.get("user_input", "")
     response = request.args.get(f"{BASE_URL}/products")
-    return "You entered: " + input_text + response
+    print(response.json())
+    return "You entered: " + input_text
