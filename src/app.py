@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import requests
 from flask import Flask, request, render_template
+from DataCollector import fetch_store, Store, db, return_store, populate_db
 'from Databases.Weather import Weather, db'
 
 app = Flask(__name__)
-URL = 'https://fakestoreapi.com/products'
 
 @app.route("/")
 def main():
@@ -14,8 +13,8 @@ def main():
 @app.route("/echo_user_input", methods=["POST"])
 def echo_input():
     input_text = request.form.get("user_input", "")
-    response = requests.get(URL)
-    print(response.content)
-    return "You entered: " + input_text
+    populate_db()
+    query = return_store()
+    return query
 
 app.run() #delete later
