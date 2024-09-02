@@ -17,5 +17,3 @@ def echo_input():
     query = return_store()
     return query
 
-if __name__ == "__main__":
-    app.run() #delete later
