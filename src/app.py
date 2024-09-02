@@ -16,5 +16,5 @@ def echo_input():
     populate_db()
     query = return_store()
     return query
-
-app.run() #delete later
+if __name__ == "__main__":
+    app.run() #delete later
