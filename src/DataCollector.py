@@ -27,7 +27,7 @@ class Store(db.Model):
     category = db.Column(db.String)
     image = db.Column(db.String)
     rate = db.Column(db.Float)
-    count = db.Column(db.String)
+    count = db.Column(db.Integer)
 
 with app.app_context():
     db.create_all()
@@ -62,9 +62,9 @@ def populate_db():
                 db.session.add(new_entry)
             db.session.commit()
 
-def return_store():
+def return_store(search_input):
     with app.app_context():
-        store_values = Store.query.all()
+        store_values = Store.query.filter(Store.title.contains(search_input))
         store_list = []
         for item in store_values:
             item_data = {
@@ -78,7 +78,8 @@ def return_store():
                 'count': item.count
             }
             store_list.append(item_data)
-        return {'products': store_list}
+        #return {'products': store_list}
+        return store_list
 
 '''
 Sure! Let’s break down the code snippet return response.json()["currentConditions"]["temp"]["c"]:
