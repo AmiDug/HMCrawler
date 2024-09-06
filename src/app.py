@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request, render_template
-from datacollector import fetch_store, Store, db, return_store, populate_db
+from DataCollector import fetch_store, Store, db, return_store, populate_db
 'from Databases.Weather import Weather, db'
 
 app = Flask(__name__)
