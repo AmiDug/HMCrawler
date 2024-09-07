@@ -14,11 +14,11 @@ def main():
 def echo_input():
     search_input = request.form.get("user_input", "")
     populate_db()
-    query = return_store(search_input)
-    print(return_count_average(query))
-    print(return_price_average(query))
-    print(return_rating_average(query))
-    return query
+    queries = return_store(search_input)
+    count_avg = return_count_average(queries)
+    price_avg = return_price_average(queries)
+    rating_avg = return_rating_average(queries)
+    return render_template("output.html", count_avg=count_avg, price_avg=price_avg, rating_avg=rating_avg, queries=queries)
 
 if __name__ == "__main__":
     app.run() #delete later
