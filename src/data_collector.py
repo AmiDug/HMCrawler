@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
-import requests, json
+import requests
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 

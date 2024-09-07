@@ -2,28 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Results</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMCrawler - Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Search Results</h1>
-    <div class="results">
-        <p>Count Average: {{ count_avg }}</p>
-        <p>Price Average: {{ price_avg }}</p>
-        <p>Rating Average: {{ rating_avg }}</p>
-        <ul>
-            {% for query in queries %}
-                <li>
-                    <strong>Title:</strong> {{ query.title }}<br>
-                    <strong>Price:</strong> {{ query.price }}<br>
-                    <strong>Description:</strong> {{ query.description }}<br>
-                    <strong>Category:</strong> {{ query.category }}<br>
-                    <strong>Image:</strong> <img src="{{ query.image }}" alt="{{ query.title }}" style="max-width: 100px;"><br>
-                    <strong>Rating:</strong> {{ query.rate }}<br>
-                    <strong>Count:</strong> {{ query.count }}
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-search"></i> Search Results for "{{ search_input }}"</h1>
+        </header>
+        <main>
+            <div class="summary">
+                <div class="summary-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <p>Count Average: <span>{{ count_avg }}</span></p>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <p>Price Average: <span>${{ price_avg }}</span></p>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-star"></i>
+                    <p>Rating Average: <span>{{ rating_avg }}</span></p>
+                </div>
+            </div>
+            <div class="results">
+                {% for query in queries %}
+                <div class="product-card">
+                    <img src="{{ query.image }}" alt="{{ query.title }}">
+                    <div class="product-info">
+                        <h2>{{ query.title }}</h2>
+                        <p class="price"><i class="fas fa-tag"></i> ${{ query.price }}</p>
+                        <p class="category"><i class="fas fa-folder"></i> {{ query.category }}</p>
+                        <p class="rating"><i class="fas fa-star"></i> {{ query.rate }} ({{ query.count }} reviews)</p>
+                        <p class="description">{{ query.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+        <footer>
+            <a href="{{ url_for('main') }}" class="back-button"><i class="fas fa-arrow-left"></i> Back to Search</a>
+        </footer>
     </div>
 </body>
 </html>
