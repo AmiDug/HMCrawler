@@ -12,14 +12,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Store.sqlite3'
 with app.app_context():
     db.init_app(app)
 
-'''
-Define the database model
-that is used to store 
-the temperature.
-'''
-
 @dataclass
 class Store(db.Model):
+    """
+    Define the database model
+    that is used to store
+    the temperature.
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     price = db.Column(db.Float)
@@ -32,19 +31,21 @@ class Store(db.Model):
 with app.app_context():
     db.create_all()
 
-'''
-fetch data from a fake store API and return it as JSON data
-'''
 def fetch_store():
+    """
+    Fetch data from a fake store API and return it as JSON data
+    :rtype: object
+    """
     response = requests.get(URL)
     #response = json.dumps(response.text)
     return response.json() #return response.json()["currentConditions"]["temp"]["c"]
 
-'''
-In main we first get the current temperature and then 
-create a new object that we can add to the database. 
-'''
 def populate_db():
+    """
+    In main we first get the current temperature and then
+    create a new object that we can add to the database.
+    :rtype: object
+    """
     store_values = fetch_store()
     with app.app_context():
         for item in store_values:
@@ -63,6 +64,10 @@ def populate_db():
             db.session.commit()
 
 def return_store(search_input):
+    """
+    Queries the database using user input and outputs all items that match as a list.
+    :rtype: object
+    """
     with app.app_context():
         store_values = Store.query.filter(Store.title.contains(search_input))
         store_list = []
@@ -78,15 +83,4 @@ def return_store(search_input):
                 'count': item.count
             }
             store_list.append(item_data)
-        #return {'products': store_list}
         return store_list
-
-'''
-Sure! Let’s break down the code snippet return response.json()["currentConditions"]["temp"]["c"]:
-
-response.json(): This method converts the JSON response from an API call into a Python dictionary. JSON (JavaScript Object Notation) is a common format for sending data in web applications.
-["currentConditions"]: This accesses the value associated with the key "currentConditions" in the dictionary. This key likely contains another dictionary with various weather-related data.
-["temp"]: This accesses the value associated with the key "temp" within the "currentConditions" dictionary. This key likely holds temperature data.
-["c"]: This accesses the value associated with the key "c" within the "temp" dictionary. This key likely represents the temperature in Celsius.
-So, the entire line of code retrieves the current temperature in Celsius from the JSON response and returns it.
-'''

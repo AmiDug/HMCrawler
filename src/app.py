@@ -8,10 +8,18 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
+    """
+    Renders the main HTML page.
+    :rtype: object
+    """
     return render_template('main.html')
 
 @app.route("/echo_user_input", methods=["POST"])
 def echo_input():
+    """
+    Renders the output HTML page in case the user submits information.
+    :rtype: object
+    """
     search_input = request.form.get("user_input", "")
     populate_db()
     queries = return_store(search_input)
