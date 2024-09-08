@@ -24,10 +24,8 @@ class TestFetchStore(unittest.TestCase):
     def test_fetch_store(self, mock_get):
         mock_response = mock_get.return_value
         mock_response.json.return_value = [{'id': 1, 'title': 'Test Product'}]
-
         result = fetch_store()
         self.assertEqual(result, [{'id': 1, 'title': 'Test Product'}])
-
 
 class TestStoreModel(unittest.TestCase):
     def test_store_model(self):
@@ -42,19 +40,16 @@ class TestStoreModel(unittest.TestCase):
         self.assertEqual(store.rate, 4.5)
         self.assertEqual(store.count, 10)
 
-
 class TestPopulateDB(TestBase):
     def test_populate_db(self):
         products = Store.query.all()
         self.assertGreater(len(products), 0)
-
 
 class TestReturnStore(TestBase):
     def test_return_store(self):
         result = return_store('Fjallraven')
         self.assertGreater(len(result), 0)
         self.assertEqual(result[0]['title'], 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops')
-
 
 if __name__ == '__main__':
     unittest.main()

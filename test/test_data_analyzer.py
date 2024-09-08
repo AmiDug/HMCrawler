@@ -24,11 +24,9 @@ class TestDataAnalyzer(unittest.TestCase):
         self.assertEqual(return_count_average(self.empty_store_list), 0)
 
     def test_integration(self):
-        # Integration test to check if all functions work together correctly
         price_avg = return_price_average(self.store_list)
         rating_avg = return_rating_average(self.store_list)
         count_avg = return_count_average(self.store_list)
-
         self.assertEqual(price_avg, 20)
         self.assertEqual(rating_avg, 4)
         self.assertEqual(count_avg, 200)
