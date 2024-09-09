@@ -20,7 +20,10 @@ def echo_input():
     Renders the output HTML page in case the user submits information.
     :rtype: object
     """
-    search_input = request.form.get("user_input", "")
+    try:
+        search_input = request.form.get("user_input", "")
+    except ValueError as err:
+        print("An exception occurred:", type(err).__name__)
     populate_db()
     queries = return_store(search_input)
     count_avg = return_count_average(queries)

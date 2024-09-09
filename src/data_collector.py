@@ -36,9 +36,11 @@ def fetch_store():
     Fetch data from a fake store API and return it as JSON data
     :rtype: object
     """
-    response = requests.get(URL)
-    #response = json.dumps(response.text)
-    return response.json() #return response.json()["currentConditions"]["temp"]["c"]
+    try:
+        response = requests.get(URL)
+    except ValueError as err:
+        print("An exception occurred:", type(err).__name__)
+    return response.json()
 
 def populate_db():
     """
