@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import threading
+import threading, time
 from flask import Flask, request, render_template
 from src.data_collector import return_store
 from src.data_analyzer import return_count_average, return_price_average, return_rating_average
@@ -34,6 +34,7 @@ def echo_input():
     except ValueError as err:
         print("An exception occurred:", type(err).__name__)
     send_message(input)
+    time.sleep(1.5)
     queries = return_store(input)
     count_avg = return_count_average(queries)
     price_avg = return_price_average(queries)
