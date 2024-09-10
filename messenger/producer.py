@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
 import pika, os
-from messenger.consumer import consume_message
 
-url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
-params = pika.URLParameters(url)
-params.socket_timeout = 5
-
-def produce_message(search_input):
+def send_message(search_input):
     """
-    Produces message using CloudAMQP
+    Producer function that sends a message to the consumer which populates the database
     :rtype: object
     """
+    url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
+    params = pika.URLParameters(url)
     connection = pika.BlockingConnection(params)
-    channel = connection.channel()
-    channel.queue_declare(queue='input')
+    channel = connection.channel() # start a channel
+    channel.queue_declare(queue='hello') # Declare a queue
     channel.basic_publish(exchange='',
-                            routing_key='input',
+                            routing_key='hello',
                             body=search_input)
+    print(" [x] Sent 'Hello World!'")
     connection.close()

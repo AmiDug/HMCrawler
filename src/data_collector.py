@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
 import requests
+from dataclasses import dataclass
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from scout_apm.flask.sqlalchemy import instrument_sqlalchemy
@@ -13,7 +13,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Store.sqlite3'
 with app.app_context():
     db.init_app(app)
     instrument_sqlalchemy(db)
-search_input = ""
 
 @dataclass
 class Store(db.Model):
@@ -68,10 +67,7 @@ def populate_db():
                 db.session.add(new_entry)
             db.session.commit()
 
-def set_input(input):
-    search_input = input
-
-def return_store(search_input = ""):
+def return_store(search_input):
     """
     Queries the database using user input and outputs all items that match as a list.
     :rtype: object

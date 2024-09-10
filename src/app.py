@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
 
+import threading
 from flask import Flask, request, render_template
-from src.data_collector import return_store, populate_db
+from src.data_collector import return_store
 from src.data_analyzer import return_count_average, return_price_average, return_rating_average
 from scout_apm.flask import ScoutApm
-from messenger.producer import produce_message
+from messenger.producer import send_message
+from messenger.consumer import consume_message
 
 app = Flask(__name__)
 ScoutApm(app)
 app.config["SCOUT_NAME"] = "HMCrawler"
+thread = threading.Thread(target=consume_message)
+thread.start()
 
 @app.route("/")
 def main():
     """
     Renders the main HTML page.
     :rtype: object
-    """
+    """''
     return render_template('main.html')
 
 @app.route("/echo_user_input", methods=["POST"])
@@ -24,14 +28,13 @@ def echo_input():
     Renders the output HTML page in case the user submits information.
     :rtype: object
     """
-    search_input = ""
+    input = ""
     try:
-        search_input = request.form.get("user_input", "")
+        input = request.form.get("user_input", "")
     except ValueError as err:
         print("An exception occurred:", type(err).__name__)
-    produce_message(search_input)
-    populate_db()
-    queries = return_store()
+    send_message(input)
+    queries = return_store(input)
     count_avg = return_count_average(queries)
     price_avg = return_price_average(queries)
     rating_avg = return_rating_average(queries)

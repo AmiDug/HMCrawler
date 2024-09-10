@@ -1,27 +1,24 @@
 #!/usr/bin/env python3
 import pika, os
-from src.data_collector import set_input
-
-url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
-params = pika.URLParameters(url)
-params.socket_timeout = 5
-
-def callback(ch, method, properties, body):
-    set_input(str(body))
+from src.data_collector import populate_db
 
 def consume_message():
     """
-    Consumes message received through CloudAMQP
+    Function that calls a database population function in the collector if it collects a message
     :rtype: object
     """
+    url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
+    params = pika.URLParameters(url)
     connection = pika.BlockingConnection(params)
-    channel = connection.channel()
-    channel.queue_declare(queue='input')
-    channel.basic_consume('input',
-                            callback,
-                            auto_ack=True)
+    channel = connection.channel() # start a channel
+    channel.queue_declare(queue='hello') # Declare a queue
+    def callback(ch, method, properties, body):
+        print(" [x] Received " + body.decode("utf-8"))
+        populate_db()
+    channel.basic_consume('hello',
+                          callback,
+                          auto_ack=True)
+
+    print(' [*] Waiting for messages:')
     channel.start_consuming()
     connection.close()
-
-if __name__ == "__main__":
-    consume_message()
