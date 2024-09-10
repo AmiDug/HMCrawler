@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import requests
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from scout_apm.flask.sqlalchemy import instrument_sqlalchemy
 
 URL = 'https://fakestoreapi.com/products'
 db = SQLAlchemy()
@@ -11,6 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Store.sqlite3'
 with app.app_context():
     db.init_app(app)
+    instrument_sqlalchemy(db)
 
 @dataclass
 class Store(db.Model):
