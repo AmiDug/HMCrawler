@@ -34,7 +34,7 @@ def echo_input():
     except ValueError as err:
         print("An exception occurred:", type(err).__name__)
     send_message(input)
-    time.sleep(1.5)
+    time.sleep(1)
     queries = return_store(input)
     count_avg = return_count_average(queries)
     price_avg = return_price_average(queries)
