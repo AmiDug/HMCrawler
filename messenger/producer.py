@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import pika, os
 
+url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
+params = pika.URLParameters(url)
+
 def send_message(search_input):
     """
     Producer function that sends a message to the consumer which populates the database
     :rtype: object
     """
-    url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
-    params = pika.URLParameters(url)
     connection = pika.BlockingConnection(params)
     channel = connection.channel() # start a channel
     channel.queue_declare(queue='hello') # Declare a queue
