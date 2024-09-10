@@ -5,6 +5,7 @@ import requests
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from scout_apm.flask.sqlalchemy import instrument_sqlalchemy
+import pika, os
 
 URL = 'https://fakestoreapi.com/products'
 db = SQLAlchemy()
@@ -13,6 +14,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Store.sqlite3'
 with app.app_context():
     db.init_app(app)
     instrument_sqlalchemy(db)
+AMQPurl = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/%2f')
+params = pika.URLParameters(AMQPurl)
+connection = pika.BlockingConnection(params)
+search_input = ""
+channel = connection.channel()
+channel.queue_declare(queue='input')
+def callback(ch, method, properties, body):
+    set_input(str(body))
+channel.basic_consume('input',
+                        callback,
+                        auto_ack=True)
+channel.start_consuming()
+connection.close()
 
 @dataclass
 class Store(db.Model):
@@ -67,7 +81,10 @@ def populate_db():
                 db.session.add(new_entry)
             db.session.commit()
 
-def return_store(search_input):
+def set_input(input):
+    search_input = input
+
+def return_store():
     """
     Queries the database using user input and outputs all items that match as a list.
     :rtype: object
