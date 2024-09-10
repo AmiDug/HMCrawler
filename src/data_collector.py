@@ -71,7 +71,7 @@ def populate_db():
 def set_input(input):
     search_input = input
 
-def return_store():
+def return_store(search_input = ""):
     """
     Queries the database using user input and outputs all items that match as a list.
     :rtype: object
