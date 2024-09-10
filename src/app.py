@@ -3,8 +3,11 @@
 from flask import Flask, request, render_template
 from src.data_collector import return_store, populate_db
 from src.data_analyzer import return_count_average, return_price_average, return_rating_average
+from scout_apm.flask import ScoutApm
 
 app = Flask(__name__)
+ScoutApm(app)
+app.config["SCOUT_NAME"] = "HMCrawler"
 
 @app.route("/")
 def main():
