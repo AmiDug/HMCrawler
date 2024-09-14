@@ -24,8 +24,6 @@ jobs:
       with:
         python-version: "3.12"
     - name: Install dependencies
-      env:
-        CLOUDAMQP_URL: ${{ secrets.CLOUDAMQP_URL }}
       run: |
         python -m pip install --upgrade pip
         pip install flake8 pytest
@@ -37,5 +35,7 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        CLOUDAMQP_URL: ${{ secrets.CLOUDAMQP_URL }}
       run: |
         python -m pytest
