@@ -14,7 +14,7 @@ class TestApp(unittest.TestCase):
     def test_main_route(self):
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<!DOCTYPE html>', response.data)  # Assuming main.html contains <html> tag
+        self.assertIn(b'<!DOCTYPE html>', response.data)
 
 if __name__ == '__main__':
     unittest.main()
