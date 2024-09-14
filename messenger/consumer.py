@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pika, os
 from src.data_collector import populate_db
-url = os.environ.get('CLOUDAMQP_URL')
+url = os.getenv('CLOUDAMQP_URL')
 params = pika.URLParameters(url)
 
 def consume_message():
