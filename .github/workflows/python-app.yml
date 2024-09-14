@@ -17,7 +17,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      CLOUDAMQP_URL: ${{ vars.CLOUDAMQP_URL }}
+      CLOUDAMQP_URL: ${{ secrets.CLOUDAMQP_URL }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
