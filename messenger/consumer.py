@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import pika, os
 from src.data_collector import populate_db
+
 url = os.getenv('CLOUDAMQP_URL')
 params = pika.URLParameters(url)
 
