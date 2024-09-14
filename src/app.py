@@ -11,7 +11,7 @@ from messenger.consumer import consume_message
 app = Flask(__name__)
 ScoutApm(app)
 app.config["SCOUT_NAME"] = "HMCrawler"
-thread = threading.Thread(target=consume_message)
+thread = threading.Thread(target=consume_message, daemon=True)
 thread.start()
 
 @app.route("/")
