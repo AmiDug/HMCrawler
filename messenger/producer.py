@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import pika, os
+from boto.s3.connection import S3Connection
 
-url = os.environ.get('CLOUDAMQP_URL', 'amqps://zgumrvzp:llQpp-5zgHhcE2yTSodx78wT0onMsakK@whale.rmq.cloudamqp.com/zgumrvzp')
+url = S3Connection(os.environ['CLOUDAMQP_URL'])
+
+#url = os.environ.get('CLOUDAMQP_URL')
 params = pika.URLParameters(url)
 
 def send_message(search_input):
