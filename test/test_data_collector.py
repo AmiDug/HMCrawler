@@ -3,7 +3,6 @@ from unittest.mock import patch
 from flask_testing import TestCase
 from src.data_collector import fetch_store, Store, db, app, populate_db, return_store
 
-
 class TestBase(TestCase):
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_store.sqlite3'
@@ -17,7 +16,6 @@ class TestBase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-
 
 class TestFetchStore(unittest.TestCase):
     @patch('src.data_collector.requests.get')
