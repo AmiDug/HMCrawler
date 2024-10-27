@@ -31,7 +31,9 @@ class Store(db.Model):
     count = db.Column(db.Integer)
 
 with app.app_context():
-    db.create_all()
+    inspector = db.inspect(db.engine)
+    if 'store' not in inspector.get_table_names():
+        db.create_all()
 
 def fetch_store():
     """
