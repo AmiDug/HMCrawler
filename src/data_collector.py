@@ -33,6 +33,7 @@ class Store(db.Model):
 with app.app_context():
     inspector = db.inspect(db.engine)
     if 'store' not in inspector.get_table_names():
+        db.drop_all()
         db.create_all()
 
 def fetch_store():
